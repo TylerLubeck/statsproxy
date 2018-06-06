@@ -6,8 +6,6 @@ import (
 	"os"
 )
 
-var Port string
-
 var rootCmd = &cobra.Command{
 	Use:   "statsproxy",
 	Short: "statsproxy is a statsd server and proxy",
@@ -17,8 +15,6 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	rootCmd.PersistentFlags().StringVarP(&Port, "port", "p", "", "The port to listen on")
-	rootCmd.MarkFlagRequired("port")
 
 	rootCmd.AddCommand(listenCmd)
 	rootCmd.AddCommand(proxyCmd)

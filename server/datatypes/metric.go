@@ -14,7 +14,11 @@ type Metric struct {
 	Tags       map[string]string
 }
 
-func (m Metric) ToDataDog() string {
+func (m Metric) GetType() Type {
+	return METRIC
+}
+
+func (m Metric) ToString() string {
 	metricString := fmt.Sprintf(
 		"%s:%f|%s|@%d",
 		m.MetricName,
@@ -38,14 +42,6 @@ func (m Metric) ToDataDog() string {
 	return fmt.Sprintf("%s%s", metricString, tagString)
 }
 
-func (m Metric) ToNewRelic() string {
-	return ""
-}
-
-func (m Metric) ToFormat(format string) string {
-	return ""
-}
-
 func parseMetric(packet string) DataType {
 
 	//var err error
@@ -57,9 +53,11 @@ func parseMetric(packet string) DataType {
 	pieces := strings.Split(packet, "|")
 	metricValuePair := strings.Split(pieces[0], ":")
 
+	fmt.Println(packet, pieces)
+
 	m.MetricName = metricValuePair[0]
-	Value, _ := strconv.ParseFloat(metricValuePair[1], 64)
-	m.Value = Value
+	//Value, _ := strconv.ParseFloat(metricValuePair[1], 64)
+	m.Value = 0
 
 	m.MetricType = pieces[1]
 

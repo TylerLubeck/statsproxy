@@ -1,0 +1,20 @@
+config:
+    address: "127.0.0.1"
+    port: 6789
+    loglevel: "DEBUG"
+
+upstreams:
+    - address: "127.0.0.1"
+      port: 6790
+      types:
+          - "metrics"
+    - address: "127.0.0.1"
+      port: 6791
+      types:
+          - "metrics"
+          - "status_check"
+    - address: "127.0.0.1"
+      port: 6792
+      types:
+          - "metrics"
+          - "events"

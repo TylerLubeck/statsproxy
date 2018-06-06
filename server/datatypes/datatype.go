@@ -4,10 +4,17 @@ import (
 	"strings"
 )
 
+type Type string
+
+const (
+	METRIC       Type = "metric"
+	STATUS_CHECK Type = "status_check"
+	EVENT        Type = "event"
+)
+
 type DataType interface {
-	ToNewRelic() string
-	ToDataDog() string
-	ToFormat(string) string
+	ToString() string
+	GetType() Type
 }
 
 func ParseDataPacket(packet string) DataType {
