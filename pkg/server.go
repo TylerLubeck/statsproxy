@@ -29,14 +29,16 @@ func (s *Server) Run(handlers []Handler) error {
 	defer s.ServerConn.Close()
 
 	for {
-		n, addr, err := ServerConn.ReadFromUDP(buf)
+		n, _, err := s.ServerConn.ReadFromUDP(buf)
 		if err != nil {
 			// TODO: what?
 		}
 
+		m := NewMessage(string(buf[:n]))
+
 		for _, handler := range handlers {
 			go func() {
-				handlerErr := handler.Handle(string(buf[:n]))
+				handlerErr := handler.Handle(m)
 				if handlerErr != nil {
 					// TODO: log?
 				}

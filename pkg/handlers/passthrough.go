@@ -1,21 +1,10 @@
-package handler
+package handlers
 
 import (
 	"fmt"
+	"github.com/tylerlubeck/statsproxy/pkg"
 	"net"
 )
-
-type HandlerConfig struct {
-	Name    string
-	Host    string
-	Port    string
-	Options map[string]interface{}
-}
-
-type Handler interface {
-	Handle(string) error
-	Close() error
-}
 
 type PassThroughHandler struct {
 	Name       string
@@ -24,14 +13,13 @@ type PassThroughHandler struct {
 	ServerConn *net.UDPConn
 }
 
-func NewHandler(config *HandlerConfig) (*PassThroughHandler, error) {
+func NewPassThroughHandler(config *server.HandlerConfig) (*PassThroughHandler, error) {
 	var pth PassThroughHandler
 	pth.Name = config.Name
 	pth.Host = config.Host
 	pth.Port = config.Port
-	ServerAddr, err := net.ResolveUDPAddr("udp", net.JoinHostPort(host, port))
 
-	ServerAddr, err := net.ResolveUDPAddr("udp", net.JoinHostPort(host, port))
+	ServerAddr, err := net.ResolveUDPAddr("udp", net.JoinHostPort(pth.Host, pth.Port))
 	if err != nil {
 		return nil, fmt.Errorf("Failed to resolve server addres: %v", err)
 	}
@@ -43,10 +31,10 @@ func NewHandler(config *HandlerConfig) (*PassThroughHandler, error) {
 
 	pth.ServerConn = ServerConn
 
-	return pth, nil
+	return &pth, nil
 }
 
-func (pth *PassThroughHandler) Handle(msg Message) error {
+func (pth *PassThroughHandler) Handle(msg *server.Message) error {
 	msgString := msg.ToString()
 	numBytes, err := fmt.Fprintf(pth.ServerConn, msgString)
 
