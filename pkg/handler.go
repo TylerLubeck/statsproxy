@@ -9,5 +9,6 @@ type HandlerConfig struct {
 
 type Handler interface {
 	Handle(*Message) error
+	GetName() string
 	Close() error
 }

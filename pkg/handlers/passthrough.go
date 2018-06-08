@@ -61,3 +61,7 @@ func (pth *PassThroughHandler) Close() error {
 
 	return nil
 }
+
+func (pth *PassThroughHandler) GetName() string {
+	return pth.Name
+}

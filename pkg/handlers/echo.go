@@ -25,3 +25,7 @@ func (eh *EchoHandler) Handle(msg *server.Message) error {
 func (eh *EchoHandler) Close() error {
 	return nil
 }
+
+func (eh *EchoHandler) GetName() string {
+	return eh.Name
+}

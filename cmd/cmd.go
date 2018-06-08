@@ -3,7 +3,6 @@ package commands
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/tylerlubeck/statsproxy/pkg"
 	"os"
 )
 
@@ -16,10 +15,7 @@ var rootCmd = &cobra.Command{
 func Execute() {
 
 	rootCmd.AddCommand(echoCmd)
-	//rootCmd.AddCommand(proxyCmd)
-
-	m := server.NewMessage("hello there")
-	fmt.Println(m.ToString())
+	rootCmd.AddCommand(proxyCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
